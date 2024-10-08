@@ -4,6 +4,8 @@ services:
         container_name: ${MONGO_DB_NAME}
         image: mongo:6.0
         restart: always
+        ports:
+            - 27017:27017
         # volumes:
         #     - poke-vol:/data/db
         environment:
