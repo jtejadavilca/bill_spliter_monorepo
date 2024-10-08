@@ -4,10 +4,17 @@ import { MongooseModule } from '@nestjs/mongoose';
 
 @Module({
   imports: [
-    MongooseModule.forRoot('mongodb://localhost:27017/bill_spliter'),
+    MongooseModule.forRoot('mongodb://root:rootpassword@localhost:27017', {
+      dbName: 'bill_splitter',
+    }),
     GroupModule,
   ],
   controllers: [],
   providers: [],
 })
-export class AppModule {}
+export class AppModule {
+  constructor() {
+    const mongoose = require('mongoose');
+    mongoose.set('debug', true);
+  }
+}

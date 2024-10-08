@@ -8,7 +8,7 @@ import { GroupDbMapper } from '../mapper/group.db.mapper';
 
 @Injectable()
 export class GroupMongoRepository implements GroupRepository {
-  constructor(/*@InjectModel('Group') private groupModel: Model<GroupDocument>*/) {}
+  constructor(@InjectModel('Group') private groupModel: Model<GroupDocument>) {}
 
   async create(group: GroupModel): Promise<GroupModel> {
     /*const createdGroup = new this.groupModel(group);
@@ -16,8 +16,12 @@ export class GroupMongoRepository implements GroupRepository {
     return new GroupModel('1222', '1', 'name', 1, 'groupType', 1);
   }
 
-  async find(): Promise<GroupModel> {
-    return new GroupModel('1222', '1', 'name', 1, 'groupType', 1);
+  async findAll(): Promise<GroupModel[]> {
+    return (await this.groupModel.find().exec()).map(GroupDbMapper.toDomain);
+  }
+
+  async findById(id: string): Promise<GroupModel> {
+    return GroupDbMapper.toDomain(await this.groupModel.findById(id).exec());
   }
 
   // Otros métodos de acceso a datos

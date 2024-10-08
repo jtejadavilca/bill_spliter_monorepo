@@ -25,7 +25,7 @@ export class GroupController {
 
   @Get()
   find() {
-    return this.groupService.find();
+    return this.groupService.findAll();
   }
 
   // @Get()

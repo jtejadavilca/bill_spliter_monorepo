@@ -15,23 +15,19 @@ export class GroupService {
     return this.groupRepository.create(groupModel);
   }
 
-  find(): Promise<GroupModel> {
-    return this.groupRepository.find();
+  findAll(): Promise<GroupModel[]> {
+    return this.groupRepository.findAll();
   }
 
-  // findAll() {
-  //   return `This action returns all group`;
-  // }
+  findOne(id: string): Promise<GroupModel> {
+    return this.groupRepository.findById(id);
+  }
 
-  // findOne(id: number) {
-  //   return `This action returns a #${id} group`;
-  // }
-
-  // update(id: number, updateGroupDto: UpdateGroupDto) {
+  // update(id: string, updateGroupDto: UpdateGroupDto): Promise<GroupModel> {
   //   return `This action updates a #${id} group`;
   // }
 
-  // remove(id: number) {
+  // remove(id: string): Promise<GroupModel> {
   //   return `This action removes a #${id} group`;
   // }
 }

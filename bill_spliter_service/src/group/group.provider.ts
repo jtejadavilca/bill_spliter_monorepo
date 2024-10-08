@@ -4,7 +4,8 @@ import { GroupMongoRepository } from './infrastructure/out/adapter/group.mongo.r
 
 export const GroupProvider: Provider = {
   provide: 'GroupRepository', //groupServiceSymbol,
-  useFactory: () => {
-    return new GroupMongoRepository();
-  },
+  useClass: GroupMongoRepository,
+  //   useFactory: () => {
+  //     return new GroupMongoRepository();
+  //   },
 };
