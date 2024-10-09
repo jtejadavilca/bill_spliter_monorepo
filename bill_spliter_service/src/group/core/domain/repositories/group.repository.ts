@@ -1,10 +1,10 @@
 import { GroupModel } from '../models/group.model';
 
 export interface GroupRepository {
-  create(groupModel: GroupModel): Promise<GroupModel>;
+  create(createGroupModel: GroupModel): Promise<GroupModel>;
+  update(id: string, updateGroupModel: GroupModel): Promise<GroupModel>;
   findAll(): Promise<GroupModel[]>;
   findById(id: string): Promise<GroupModel>;
-  // update(group: Group): Promise<Group>;
-  // delete(id: string): Promise<void>;
-  // findAll(): Promise<Group[]>;
+  physicalDelete(id: string): Promise<GroupModel>;
+  delete(id: string): Promise<GroupModel>;
 }

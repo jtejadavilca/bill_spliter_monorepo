@@ -6,5 +6,7 @@ export class GroupModel {
     public readonly numMembers: number,
     public readonly groupType: string,
     public readonly totalAmount: number,
+    public readonly enabled: boolean,
+    public readonly createdAt: Date,
   ) {}
 }

@@ -10,15 +10,8 @@ export class GroupDbMapper {
       groupDocument.numMembers,
       groupDocument.groupType,
       groupDocument.totalAmount,
+      groupDocument.enabled,
+      groupDocument.createdAt,
     );
   }
-  /*toPersistence(groupModel) {
-        return {
-            userId: groupModel.userId,
-            name: groupModel.name,
-            numMembers: groupModel.numMembers,
-            groupType: groupModel.groupType,
-            totalAmount: groupModel.totalAmount,
-        };
-    }*/
 }

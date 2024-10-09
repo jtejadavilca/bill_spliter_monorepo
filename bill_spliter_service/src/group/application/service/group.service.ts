@@ -1,7 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { GroupModel } from 'src/group/core/domain/models/group.model';
-// import { CreateGroupDto } from './dto/create-group.dto';
-// import { UpdateGroupDto } from './dto/update-group.dto';
 import { GroupRepository } from 'src/group/core/domain/repositories/group.repository';
 
 @Injectable()
@@ -11,23 +9,28 @@ export class GroupService {
     private readonly groupRepository: GroupRepository,
   ) {}
 
-  create(groupModel: GroupModel): Promise<GroupModel> {
-    return this.groupRepository.create(groupModel);
+  create(createGroupModel: GroupModel): Promise<GroupModel> {
+    return this.groupRepository.create(createGroupModel);
+  }
+
+  update(id: string, updateGroupModel: GroupModel): Promise<GroupModel> {
+    console.log('updateGroupModel', updateGroupModel);
+    return this.groupRepository.update(id, updateGroupModel);
   }
 
   findAll(): Promise<GroupModel[]> {
     return this.groupRepository.findAll();
   }
 
-  findOne(id: string): Promise<GroupModel> {
-    return this.groupRepository.findById(id);
+  async findById(id: string): Promise<GroupModel> {
+    return await this.groupRepository.findById(id);
   }
 
-  // update(id: string, updateGroupDto: UpdateGroupDto): Promise<GroupModel> {
-  //   return `This action updates a #${id} group`;
-  // }
+  physicalDelete(id: string): Promise<GroupModel> {
+    return this.groupRepository.physicalDelete(id);
+  }
 
-  // remove(id: string): Promise<GroupModel> {
-  //   return `This action removes a #${id} group`;
-  // }
+  delete(id: string): Promise<GroupModel> {
+    return this.groupRepository.delete(id);
+  }
 }

@@ -1,11 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Types } from 'mongoose';
-//import { HydratedDocument } from 'mongoose';
 
 @Schema({ collection: 'groups', timestamps: true })
 export class GroupDocument {
-  //id
-  @Prop({ type: Types.ObjectId })
   _id: string;
 
   @Prop()
@@ -22,6 +18,12 @@ export class GroupDocument {
 
   @Prop()
   totalAmount: number;
+
+  @Prop()
+  enabled: boolean = true;
+
+  @Prop()
+  createdAt: Date;
 }
 
 export const GroupSchema = SchemaFactory.createForClass(GroupDocument);
