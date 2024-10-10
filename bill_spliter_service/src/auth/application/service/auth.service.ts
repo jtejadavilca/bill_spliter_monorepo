@@ -29,4 +29,8 @@ export class AuthService {
 
     return user;
   }
+
+  async getUserById(id: string): Promise<UserModel> {
+    return this.userRepository.findById(id);
+  }
 }

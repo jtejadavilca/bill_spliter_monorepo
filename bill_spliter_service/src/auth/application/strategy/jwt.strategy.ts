@@ -1,15 +1,12 @@
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
+import { JwtPayload } from 'jsonwebtoken';
 
-//import { AuthService } from "../auth.service";
-// import { JwtPayload } from "../interfaces/jwt-payload.interface";
-// import { User } from "../entities/user.entity";
 import { ConfigService } from '@nestjs/config';
-import { Inject } from '@nestjs/common';
+import { Inject, UnauthorizedException } from '@nestjs/common';
+
 import { AuthService } from '../service/auth.service';
-// import { Inject, UnauthorizedException } from "@nestjs/common";
-// import { InjectRepository } from "@nestjs/typeorm";
-// import { Repository } from "typeorm";
+import { UserModel } from 'src/auth/core/domain/models/user.model';
 
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(
@@ -24,19 +21,19 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     });
   }
 
-  /*async validate(payload: JwtPayload): Promise<User> {
+  async validate(payload: JwtPayload): Promise<UserModel> {
     const { id } = payload;
     const user = await this.authService.getUserById(id);
 
-    if(!user) {
-        throw new UnauthorizedException('Token not valid');
+    if (!user) {
+      throw new UnauthorizedException('Token not valid');
     }
 
-    if(!user.isActive) {
-        throw new UnauthorizedException('User is not active');
+    if (!user.enabled) {
+      throw new UnauthorizedException('User is not active');
     }
 
     //return { userId: payload.sub, username: payload.username };
     return user;
-  }*/
+  }
 }

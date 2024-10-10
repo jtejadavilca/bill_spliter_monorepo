@@ -14,13 +14,20 @@ import { GroupInputMapper } from '../mapper/group.input.mapper';
 import { GroupOutputMapper } from '../mapper/group.output.mapper';
 import { GetGroupDto } from './dto/get-group.dto';
 import { UpdateGroupDto } from './dto/update-group.dto';
+import { Auth, GetUser } from 'src/auth/application/decorators';
+import { UserModel } from 'src/auth/core/domain/models/user.model';
+import { ValidRoles } from 'src/auth/core/domain/models/enum/valid_roles.enum';
 
 @Controller('groups')
 export class GroupController {
   constructor(private readonly groupService: GroupService) {}
 
   @Post()
-  async create(@Body() createGroupDto: CreateGroupDto): Promise<GetGroupDto> {
+  @Auth()
+  async create(
+    @Body() createGroupDto: CreateGroupDto,
+    @GetUser() user: UserModel,
+  ): Promise<GetGroupDto> {
     const createdGroup = await this.groupService.create(
       GroupInputMapper.mapToCreateGroupModel(createGroupDto),
     );
@@ -28,9 +35,11 @@ export class GroupController {
   }
 
   @Patch(':id')
+  @Auth()
   async update(
     @Param('id') id: string,
     @Body() updateGroupDto: UpdateGroupDto,
+    @GetUser() user: UserModel,
   ): Promise<GetGroupDto> {
     const updatedGroup = await this.groupService.update(
       id,
@@ -45,6 +54,7 @@ export class GroupController {
   }
 
   @Get()
+  @Auth()
   async findAll(): Promise<GetGroupDto[]> {
     const groupModels = await this.groupService.findAll();
 
@@ -52,6 +62,7 @@ export class GroupController {
   }
 
   @Get(':id')
+  @Auth()
   async findOne(@Param('id') id: string): Promise<GetGroupDto> {
     const groupDto = GroupOutputMapper.mapToGroupDto(
       await this.groupService.findById(id),
@@ -65,6 +76,7 @@ export class GroupController {
   }
 
   @Delete('/physical/:id')
+  @Auth(ValidRoles.ADMIN)
   async physicalDelete(@Param('id') id: string): Promise<GetGroupDto> {
     const deletedGroup = await this.groupService.physicalDelete(id);
 
@@ -75,6 +87,7 @@ export class GroupController {
   }
 
   @Delete(':id')
+  @Auth(ValidRoles.ADMIN)
   async delete(@Param('id') id: string) {
     const deletedGroup = await this.groupService.delete(id);
     if (!deletedGroup) {
