@@ -1,10 +1,9 @@
 import { GroupModel } from 'src/group/core/domain/models/group.model';
 import { CreateGroupDto } from '../controller/dto/create-group.dto';
-import { GetGroupDto } from '../controller/dto/get-group.dto';
 import { UpdateGroupDto } from '../controller/dto/update-group.dto';
 
 export class GroupInputMapper {
-  static mapToCreateGroupModel(createGroupDto: CreateGroupDto) {
+  static mapToCreateGroupModel(createGroupDto: CreateGroupDto): GroupModel {
     return new GroupModel(
       null,
       createGroupDto.userId,
@@ -17,7 +16,7 @@ export class GroupInputMapper {
     );
   }
 
-  static mapToUpdateGroupModel(updateGroupDto: UpdateGroupDto) {
+  static mapToUpdateGroupModel(updateGroupDto: UpdateGroupDto): GroupModel {
     return new GroupModel(
       null,
       null,

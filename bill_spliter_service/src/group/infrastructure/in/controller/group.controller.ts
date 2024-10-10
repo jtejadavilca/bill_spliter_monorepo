@@ -6,7 +6,6 @@ import {
   Patch,
   Param,
   Delete,
-  Inject,
   NotFoundException,
 } from '@nestjs/common';
 import { GroupService } from 'src/group/application/service/group.service';
