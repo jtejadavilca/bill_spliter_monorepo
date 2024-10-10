@@ -1,5 +1,6 @@
 import { UserModel } from 'src/auth/core/domain/models/user.model';
 import { UserDocument } from '../database/schema/user.schema';
+import { ValidRoles } from 'src/auth/core/domain/models/enum/valid_roles.enum';
 
 export class UserDbMapper {
   public static toDomain(user: UserDocument): UserModel {
@@ -9,7 +10,7 @@ export class UserDbMapper {
       user.lastName,
       user.email,
       user.password,
-      user.role.toString() as 'ADMIN' | 'USER',
+      user.role.toString() as ValidRoles,
       user.enabled,
       user.createdAt,
     );

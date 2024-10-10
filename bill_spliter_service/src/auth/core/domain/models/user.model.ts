@@ -1,4 +1,4 @@
-export type Role = 'ADMIN' | 'USER';
+import { ValidRoles } from './enum/valid_roles.enum';
 
 export class UserModel {
   constructor(
@@ -7,7 +7,7 @@ export class UserModel {
     public readonly lastName: string,
     public readonly email: string,
     public readonly password: string,
-    public readonly role: Role,
+    public readonly role: ValidRoles,
     public readonly enabled: boolean,
     public readonly createdAt: Date,
   ) {}
