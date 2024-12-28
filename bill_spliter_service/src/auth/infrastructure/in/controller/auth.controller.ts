@@ -62,7 +62,6 @@ export class AuthController {
   }
 
   private buildToken(userModel: UserModel): TokenDto {
-    console.log('userModel', userModel);
     const payload = UserOutputMapper.toTokenPayloadDto(userModel);
     return new TokenDto(this.jwtService.sign({ ...payload }));
   }
