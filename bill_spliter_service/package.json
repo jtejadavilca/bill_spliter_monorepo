@@ -31,7 +31,7 @@
     "@types/passport-jwt": "^4.0.1",
     "bcrypt": "^5.1.1",
     "bill_spliter_service": "file:",
-    "mongoose": "^8.7.0",
+    "mongoose": "^8.9.2",
     "passport": "^0.7.0",
     "passport-jwt": "^4.0.1",
     "reflect-metadata": "^0.1.13",

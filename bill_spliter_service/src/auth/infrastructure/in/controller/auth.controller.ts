@@ -15,6 +15,7 @@ import { UserInputMapper } from '../mapper/user.input.mapper';
 import * as bcrypt from 'bcrypt';
 import { UserModel } from 'src/auth/core/domain/models/user.model';
 import { UserAlreadyExistsException } from 'src/auth/core/exceptions/user/user_already_exists.exception';
+import { AuthResponse } from './dto/auth.response';
 
 @Controller('auth')
 export class AuthController {
@@ -24,7 +25,7 @@ export class AuthController {
   ) {}
 
   @Post('login')
-  async login(@Body() loginDto: LoginDto): Promise<TokenDto> {
+  async login(@Body() loginDto: LoginDto): Promise<AuthResponse> {
     const userModel = await this.authService.findByEmailAndPassword(
       loginDto.email,
       loginDto.password,
@@ -34,11 +35,11 @@ export class AuthController {
       throw new UnauthorizedException('Invalid credentials');
     }
 
-    return this.buildToken(userModel);
+    return this.buildAuthResponse(userModel);
   }
 
   @Post('register')
-  async register(@Body() registerDto: RegisterDto): Promise<TokenDto> {
+  async register(@Body() registerDto: RegisterDto): Promise<AuthResponse> {
     try {
       const userModel = await this.authService.create(
         UserInputMapper.mapToUserModel(
@@ -46,7 +47,7 @@ export class AuthController {
           bcrypt.hashSync(registerDto.password, 10),
         ),
       );
-      return this.buildToken(userModel);
+      return this.buildAuthResponse(userModel);
     } catch (error) {
       if (error instanceof UserAlreadyExistsException) {
         throw new BadRequestException('User already exists');
@@ -54,7 +55,14 @@ export class AuthController {
     }
   }
 
+  private buildAuthResponse(userModel: UserModel): AuthResponse {
+    const { token } = this.buildToken(userModel);
+    const data = UserOutputMapper.toAuthDataDto(userModel);
+    return new AuthResponse(token, data);
+  }
+
   private buildToken(userModel: UserModel): TokenDto {
+    console.log('userModel', userModel);
     const payload = UserOutputMapper.toTokenPayloadDto(userModel);
     return new TokenDto(this.jwtService.sign({ ...payload }));
   }

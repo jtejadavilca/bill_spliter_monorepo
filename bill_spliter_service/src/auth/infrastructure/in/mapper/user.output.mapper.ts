@@ -11,4 +11,14 @@ export class UserOutputMapper {
       userModel.lastName,
     );
   }
+
+  static toAuthDataDto(userModel: UserModel) {
+    return {
+      id: userModel.id,
+      email: userModel.email,
+      name: userModel.name,
+      lastName: userModel.lastName,
+      role: userModel.role,
+    };
+  }
 }
