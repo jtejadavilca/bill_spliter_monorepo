@@ -1,12 +1,38 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import Swal from "sweetalert2";
+
 import { AppLayout } from "../../layout/AppLayout";
+import { TableGroups } from "../../components";
+import { Group } from "../../../interfaces";
+import { apiGetGroups } from "../../../api";
 
 export const HistoryPage = () => {
+    const [groups, setGroups] = useState<Group[]>([]);
+    const [page, setPage] = useState<number>(1);
+    const [isLoading, setIsLoading] = useState<boolean>(true);
+
+    useEffect(() => {
+        const getGroups = async () => {
+            try {
+                const groupsFromService = await apiGetGroups(page);
+                setGroups(groupsFromService);
+            } catch (error) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "Error loading groups",
+                });
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        getGroups();
+    }, [page]);
+
     return (
         <AppLayout>
-            <div className="rounded w-full max-w-96 mx-auto p-4 bg-white dark:bg-gray-800">
-                <h1>History</h1>
-            </div>
+            <TableGroups groups={groups} isLoading={isLoading} />
         </AppLayout>
     );
 };

@@ -80,6 +80,16 @@ export const CreateGroupModalForm = ({ open = false, closeModal }: Props) => {
                 }
             })
             .catch((error) => {
+                if (error.message === "Unauthorized") {
+                    Swal.fire({
+                        icon: "warning",
+                        title: "Unauthorized",
+                        text: "Your session has expired. Please login again.",
+                    }).then(() => {
+                        logout();
+                    });
+                    return;
+                }
                 console.error("Error creating group", error);
                 Swal.fire({
                     icon: "error",

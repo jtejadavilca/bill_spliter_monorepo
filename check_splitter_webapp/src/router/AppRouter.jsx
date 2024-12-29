@@ -3,6 +3,7 @@ import { Navigate, Route, Routes, useNavigate } from "react-router";
 import { AuthRoutes } from "../auth/routes/AuthRoutes";
 import { AppRoutes } from "../app/routes/AppRoutes";
 import { useCheckAuth } from "../hooks";
+import { Loader } from "../app/components";
 
 export const AppRouter = () => {
     const navigate = useNavigate();
@@ -14,6 +15,8 @@ export const AppRouter = () => {
     }, [authStatus]);
     return (
         <Routes>
+            {sessionStatus === "checking" && <Route path="/*" element={<Loader />} />}
+
             {/* Login y Registro */}
             {sessionStatus !== "authenticated" && (
                 <>
