@@ -1,5 +1,5 @@
 {
-  "name": "bill_spliter_socket",
+  "name": "check_splitter_service",
   "version": "0.0.1",
   "description": "",
   "author": "",
@@ -21,9 +21,19 @@
   },
   "dependencies": {
     "@nestjs/common": "^9.0.0",
+    "@nestjs/config": "^3.2.3",
     "@nestjs/core": "^9.0.0",
+    "@nestjs/jwt": "^10.2.0",
+    "@nestjs/mapped-types": "*",
+    "@nestjs/mongoose": "^10.0.10",
+    "@nestjs/passport": "^10.0.3",
     "@nestjs/platform-express": "^9.0.0",
-    "bill_spliter_socket": "file:",
+    "@types/passport-jwt": "^4.0.1",
+    "bcrypt": "^5.1.1",
+    "check_splitter_service": "file:",
+    "mongoose": "^8.9.2",
+    "passport": "^0.7.0",
+    "passport-jwt": "^4.0.1",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.2.0"
   },

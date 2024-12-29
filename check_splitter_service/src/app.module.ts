@@ -8,7 +8,7 @@ import { AuthModule } from './auth/auth.module';
   imports: [
     ConfigModule.forRoot(),
     MongooseModule.forRoot('mongodb://root:rootpassword@localhost:27017', {
-      dbName: 'bill_splitter',
+      dbName: 'check_splitter',
     }),
     GroupModule,
     AuthModule,
