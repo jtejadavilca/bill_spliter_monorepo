@@ -28,8 +28,7 @@ export const LoginPage = () => {
     const onSubmit = async (data: LoginFormFields) => {
         const { email, password } = data;
 
-        apiLogin(email, password).then((response: AuthResponse) => {
-            console.log(response);
+        apiLogin({ email, password }).then((response: AuthResponse) => {
             if (response.data && response.token) {
                 setUser(response.data, response.token);
             }
