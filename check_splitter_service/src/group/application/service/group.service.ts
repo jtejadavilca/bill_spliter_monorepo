@@ -1,4 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { GroupModel } from 'src/group/core/domain/models/group.model';
 import { GroupRepository } from 'src/group/core/domain/repositories/group.repository';
 
@@ -7,6 +8,7 @@ export class GroupService {
   constructor(
     @Inject('GroupRepository')
     private readonly groupRepository: GroupRepository,
+    private readonly configService: ConfigService,
   ) {}
 
   create(createGroupModel: GroupModel): Promise<GroupModel> {
@@ -36,5 +38,15 @@ export class GroupService {
 
   delete(id: string): Promise<GroupModel> {
     return this.groupRepository.delete(id);
+  }
+
+  physicalDeleteAll(): Promise<number> {
+    const environment = this.configService.get('ENV');
+    if (environment !== 'DEV') {
+      throw new Error(
+        `This process can only be executed in development environment, not in ${environment}`,
+      );
+    }
+    return this.groupRepository.physicalDeleteAll();
   }
 }

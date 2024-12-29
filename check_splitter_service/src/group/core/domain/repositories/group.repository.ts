@@ -7,5 +7,6 @@ export interface GroupRepository {
   findById(id: string): Promise<GroupModel>;
   findByCode(code: string): Promise<GroupModel>;
   physicalDelete(id: string): Promise<GroupModel>;
+  physicalDeleteAll(): Promise<number>;
   delete(id: string): Promise<GroupModel>;
 }

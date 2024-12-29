@@ -30,6 +30,12 @@ import { AuthProvider } from './auth.provider';
       }),
     }),
   ],
-  exports: [JwtStrategy, PassportModule, JwtModule, MongooseModule],
+  exports: [
+    AuthService,
+    JwtStrategy,
+    PassportModule,
+    JwtModule,
+    MongooseModule,
+  ],
 })
 export class AuthModule {}

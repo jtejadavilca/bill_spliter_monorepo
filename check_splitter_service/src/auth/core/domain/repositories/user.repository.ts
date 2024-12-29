@@ -7,4 +7,5 @@ export interface UserRepository {
   findById(id: string): Promise<UserModel>;
   findByEmail(email: string): Promise<UserModel>;
   delete(id: string): Promise<UserModel>;
+  physicalDeleteAll(): Promise<number>;
 }

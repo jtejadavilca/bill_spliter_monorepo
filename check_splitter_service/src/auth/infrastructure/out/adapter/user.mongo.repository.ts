@@ -74,4 +74,13 @@ export class UserMongoRepository implements UserRepository {
 
     return deletedUser ? UserDbMapper.toDomain(deletedUser) : null;
   }
+
+  async physicalDeleteAll(): Promise<number> {
+    try {
+      const userDocument = await this.userDbModel.deleteMany({});
+      return userDocument.deletedCount;
+    } catch (e) {
+      return 0;
+    }
+  }
 }
