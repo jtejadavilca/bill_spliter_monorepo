@@ -1,11 +1,12 @@
 import { checkSplitterSecuredApi } from "./api-config";
 import { CreateGroupRequest, CreateGroupResponse } from "./interfaces";
 
-export const apiCreateGroup = async (createGroupRequest: CreateGroupRequest): Promise<CreateGroupResponse | null> => {
+export const apiCreateGroup = async (createGroupRequest: CreateGroupRequest): Promise<CreateGroupResponse> => {
     try {
         const response = await checkSplitterSecuredApi.post<CreateGroupResponse>("/groups", { ...createGroupRequest });
         return response.data;
     } catch (error) {
-        return null;
+        console.error("Error creating group", error);
+        throw new Error("Error creating group");
     }
 };

@@ -1,7 +1,9 @@
-import React, { useState } from "react";
-import { MdContentCopy, MdCheckCircleOutline } from "react-icons/md";
-import { generateRandonCode } from "../../../../utils/utils";
+import React, { useLayoutEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { MdContentCopy, MdCheckCircleOutline } from "react-icons/md";
+import Swal from "sweetalert2";
+
+import { generateRandonCode } from "../../../../utils/utils";
 import { apiCreateGroup } from "../../../../api";
 import { useAuthStore } from "../../../../store";
 
@@ -23,12 +25,10 @@ export const CreateGroupModalForm = ({ open = false, closeModal }: Props) => {
     const user = useAuthStore((state) => state.user);
     const logout = useAuthStore((state) => state.logout);
 
-    const { handleSubmit, register, formState } = useForm<GroupFormFields>({
+    const { handleSubmit, register, formState, setValue, reset } = useForm<GroupFormFields>({
         defaultValues: async () => {
-            const gc = generateRandonCode();
-            setGeneratedCode(gc);
             return {
-                code: gc,
+                code: "",
                 name: "",
                 numMembers: 4,
                 groupType: "",
@@ -36,6 +36,14 @@ export const CreateGroupModalForm = ({ open = false, closeModal }: Props) => {
             };
         },
     });
+
+    useLayoutEffect(() => {
+        if (open) {
+            const code = generateRandonCode();
+            setGeneratedCode(code);
+            setValue("code", code);
+        }
+    }, [open, reset]);
 
     const copyCode = () => {
         setIsCopied(true);
@@ -56,9 +64,29 @@ export const CreateGroupModalForm = ({ open = false, closeModal }: Props) => {
             userId: user.id,
         };
 
-        apiCreateGroup(newGroup).then((response) => {
-            console.log("Grupo creado correctamente! groupId: ", response?.id);
-        });
+        apiCreateGroup(newGroup)
+            .then((response) => {
+                console.log("Grupo creado correctamente! groupId: ", response?.id);
+                if (response?.id) {
+                    closeModal();
+                    Swal.fire({
+                        icon: "success",
+                        title: "Group created!",
+                        text: "Group created successfully!",
+                    }).then(() => {
+                        console.log("Redirect to group page");
+                    });
+                    return;
+                }
+            })
+            .catch((error) => {
+                console.error("Error creating group", error);
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "Something went wrong!",
+                });
+            });
     };
 
     return (
@@ -66,7 +94,10 @@ export const CreateGroupModalForm = ({ open = false, closeModal }: Props) => {
             <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-40">
                 <div className="bg-white w-96 p-6 rounded shadow-lg relative z-50">
                     {/* Botón para cerrar */}
-                    <button onClick={closeModal} className="absolute top-2 right-2 text-gray-400 hover:text-gray-600">
+                    <button
+                        onClick={closeModal}
+                        className="absolute top-2 text-xl right-4 text-gray-400 hover:text-gray-600"
+                    >
                         &#10005;
                     </button>
 

@@ -1,4 +1,5 @@
 import { IoExitOutline, IoHomeOutline } from "react-icons/io5";
+import { GrGroup } from "react-icons/gr";
 import { MdHistory } from "react-icons/md";
 
 import { IconType } from "react-icons/lib";
@@ -16,6 +17,11 @@ export const menuOptions: MenuOption[] = [
         title: "Home",
         to: "/",
         icon: IoHomeOutline,
+    },
+    {
+        title: "Groups",
+        to: "/groups",
+        icon: GrGroup,
     },
     {
         title: "History",
