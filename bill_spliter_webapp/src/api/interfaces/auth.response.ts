@@ -1,4 +1,4 @@
-import { Roles } from "./user.interface";
+import { Roles } from "../../interfaces/user.interface";
 
 export interface AuthResponse {
     token?: string | null;

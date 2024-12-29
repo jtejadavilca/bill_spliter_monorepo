@@ -2,9 +2,8 @@ import React from "react";
 import { Link } from "react-router";
 import { useForm } from "react-hook-form";
 import { AuthLayout } from "../layout/AuthLayout";
-import { apiLogin } from "../../api/service";
+import { AuthResponse, apiLogin } from "../../api";
 import { useAuthStore } from "../../store";
-import { AuthResponse } from "../../interfaces";
 
 type LoginFormFields = {
     email: string;

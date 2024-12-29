@@ -1,12 +1,5 @@
-import axios from "axios";
-import { AuthResponse, LoginRequest, RegisterRequest } from "../interfaces";
-
-export const checkSplitterApi = axios.create({
-    baseURL: "http://localhost:3000/api",
-    headers: {
-        "Content-Type": "application/json",
-    },
-});
+import { AuthResponse, LoginRequest, RegisterRequest } from "./interfaces";
+import { checkSplitterApi } from "./api-config";
 
 export const apiLogin = async ({ email, password }: LoginRequest): Promise<AuthResponse> => {
     try {
