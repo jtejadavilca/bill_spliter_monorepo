@@ -3,10 +3,13 @@ import { CreateGroupDto } from '../controller/dto/create-group.dto';
 import { UpdateGroupDto } from '../controller/dto/update-group.dto';
 
 export class GroupInputMapper {
-  static mapToCreateGroupModel(createGroupDto: CreateGroupDto): GroupModel {
+  static mapToCreateGroupModel(
+    userId: string,
+    createGroupDto: CreateGroupDto,
+  ): GroupModel {
     return new GroupModel(
       null,
-      createGroupDto.userId,
+      userId,
       createGroupDto.code,
       createGroupDto.name,
       createGroupDto.numMembers,

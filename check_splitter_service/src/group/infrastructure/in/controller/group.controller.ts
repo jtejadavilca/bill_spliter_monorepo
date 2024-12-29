@@ -29,7 +29,7 @@ export class GroupController {
     @GetUser() user: UserModel,
   ): Promise<GetGroupDto> {
     const createdGroup = await this.groupService.create(
-      GroupInputMapper.mapToCreateGroupModel(createGroupDto),
+      GroupInputMapper.mapToCreateGroupModel(user.id, createGroupDto),
     );
     return GroupOutputMapper.mapToGroupDto(createdGroup);
   }
