@@ -6,6 +6,7 @@ export class GroupDbMapper {
     return new GroupModel(
       groupDocument._id,
       groupDocument.userId,
+      groupDocument.code,
       groupDocument.name,
       groupDocument.numMembers,
       groupDocument.groupType,

@@ -50,6 +50,15 @@ export class GroupMongoRepository implements GroupRepository {
     return groupDocument ? GroupDbMapper.toDomain(groupDocument) : null;
   }
 
+  async findByCode(code: string): Promise<GroupModel> {
+    const groupDocument = await this.groupDbModel.findOne({
+      code,
+      enabled: 'true',
+    });
+
+    return groupDocument ? GroupDbMapper.toDomain(groupDocument) : null;
+  }
+
   async physicalDelete(id: string): Promise<GroupModel> {
     const groupDocument = await this.groupDbModel.findByIdAndDelete(id);
     return groupDocument ? GroupDbMapper.toDomain(groupDocument) : null;

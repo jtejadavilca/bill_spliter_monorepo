@@ -5,6 +5,7 @@ export interface GroupRepository {
   update(id: string, updateGroupModel: GroupModel): Promise<GroupModel>;
   findAll(): Promise<GroupModel[]>;
   findById(id: string): Promise<GroupModel>;
+  findByCode(code: string): Promise<GroupModel>;
   physicalDelete(id: string): Promise<GroupModel>;
   delete(id: string): Promise<GroupModel>;
 }

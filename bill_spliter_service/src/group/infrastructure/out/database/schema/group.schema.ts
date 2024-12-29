@@ -7,6 +7,9 @@ export class GroupDocument {
   @Prop()
   userId: string;
 
+  @Prop({ unique: true })
+  code: string;
+
   @Prop()
   name: string;
 

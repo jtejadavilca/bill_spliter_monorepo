@@ -2,6 +2,7 @@ export class GroupModel {
   constructor(
     public readonly id: string,
     public readonly userId: string,
+    public readonly code: string,
     public readonly name: string,
     public readonly numMembers: number,
     public readonly groupType: string,

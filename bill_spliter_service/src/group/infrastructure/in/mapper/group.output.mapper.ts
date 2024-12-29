@@ -9,6 +9,7 @@ export class GroupOutputMapper {
     return {
       id: group.id,
       userId: group.userId,
+      code: group.code,
       name: group.name,
       numMembers: group.numMembers,
       groupType: group.groupType,

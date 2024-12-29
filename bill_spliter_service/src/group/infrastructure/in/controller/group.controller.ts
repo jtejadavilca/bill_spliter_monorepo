@@ -63,13 +63,27 @@ export class GroupController {
 
   @Get(':id')
   @Auth()
-  async findOne(@Param('id') id: string): Promise<GetGroupDto> {
+  async findById(@Param('id') id: string): Promise<GetGroupDto> {
     const groupDto = GroupOutputMapper.mapToGroupDto(
       await this.groupService.findById(id),
     );
 
     if (!groupDto) {
       throw new NotFoundException(`Group with id ${id} not found`);
+    }
+
+    return groupDto;
+  }
+
+  @Get(':code')
+  @Auth()
+  async findByCode(@Param('code') code: string): Promise<GetGroupDto> {
+    const groupDto = GroupOutputMapper.mapToGroupDto(
+      await this.groupService.findByCode(code),
+    );
+
+    if (!groupDto) {
+      throw new NotFoundException(`Group with code ${code} not found`);
     }
 
     return groupDto;

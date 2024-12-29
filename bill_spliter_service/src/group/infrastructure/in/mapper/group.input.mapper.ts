@@ -7,6 +7,7 @@ export class GroupInputMapper {
     return new GroupModel(
       null,
       createGroupDto.userId,
+      createGroupDto.code,
       createGroupDto.name,
       createGroupDto.numMembers,
       createGroupDto.groupType,
@@ -20,6 +21,7 @@ export class GroupInputMapper {
     return new GroupModel(
       null,
       null,
+      updateGroupDto.code,
       updateGroupDto.name,
       updateGroupDto.numMembers,
       updateGroupDto.groupType,

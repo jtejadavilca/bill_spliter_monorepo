@@ -26,6 +26,10 @@ export class GroupService {
     return await this.groupRepository.findById(id);
   }
 
+  findByCode(code: string): Promise<GroupModel> {
+    return this.groupRepository.findByCode(code);
+  }
+
   physicalDelete(id: string): Promise<GroupModel> {
     return this.groupRepository.physicalDelete(id);
   }
