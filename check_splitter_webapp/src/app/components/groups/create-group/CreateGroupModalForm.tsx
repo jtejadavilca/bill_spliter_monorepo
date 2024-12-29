@@ -1,11 +1,66 @@
-import React, { useEffect, useState } from "react";
-import clsx from "clsx";
+import React, { useState } from "react";
+import { MdContentCopy, MdCheckCircleOutline } from "react-icons/md";
+import { generateRandonCode } from "../../../../utils/utils";
+import { useForm } from "react-hook-form";
+import { apiCreateGroup } from "../../../../api";
+import { useAuthStore } from "../../../../store";
+
+type GroupFormFields = {
+    code: string;
+    name: string;
+    numMembers: number;
+    groupType: string;
+    totalAmount: number;
+};
 
 interface Props {
     open?: boolean;
     closeModal: () => void;
 }
 export const CreateGroupModalForm = ({ open = false, closeModal }: Props) => {
+    const [isCopied, setIsCopied] = useState<boolean>(false);
+    const [generatedCode, setGeneratedCode] = useState<string>("");
+    const user = useAuthStore((state) => state.user);
+    const logout = useAuthStore((state) => state.logout);
+
+    const { handleSubmit, register, formState } = useForm<GroupFormFields>({
+        defaultValues: async () => {
+            const gc = generateRandonCode();
+            setGeneratedCode(gc);
+            return {
+                code: gc,
+                name: "",
+                numMembers: 4,
+                groupType: "",
+                totalAmount: 0,
+            };
+        },
+    });
+
+    const copyCode = () => {
+        setIsCopied(true);
+        navigator.clipboard.writeText(generatedCode);
+        setTimeout(() => {
+            setIsCopied(false);
+        }, 3000);
+    };
+
+    const onSubmit = async (data: GroupFormFields) => {
+        if (!user || !user.id) {
+            logout();
+            throw new Error("User not found");
+        }
+
+        const newGroup = {
+            ...data,
+            userId: user.id,
+        };
+
+        apiCreateGroup(newGroup).then((response) => {
+            console.log("Grupo creado correctamente! groupId: ", response?.id);
+        });
+    };
+
     return (
         open && (
             <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-40">
@@ -19,22 +74,36 @@ export const CreateGroupModalForm = ({ open = false, closeModal }: Props) => {
                     <h2 className="text-lg font-bold mb-4">Create New Group</h2>
 
                     {/* Formulario */}
-                    <form>
+                    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4" action="#">
                         <div className="mb-4">
                             <label className="block text-sm font-medium text-gray-700">Code</label>
-                            <input
-                                type="text"
-                                className="mt-1 block w-full border border-gray-300 rounded px-3 py-2"
-                                placeholder="Code"
-                            />
+                            <div className="flex items-center justify-evenly">
+                                <input
+                                    type="text"
+                                    className="uppercase tracking-wider mt-1 block w-full border border-gray-300 bg-slate-200 rounded px-3 py-2 read cursor-not-allowed"
+                                    readOnly={true}
+                                    placeholder="Code"
+                                    {...register("code", { required: true, minLength: 11 })}
+                                />
+                                {isCopied ? (
+                                    <button className="ml-2 text-green-500" disabled={true}>
+                                        <MdCheckCircleOutline size={25} />
+                                    </button>
+                                ) : (
+                                    <button className="ml-2" onClick={() => copyCode()}>
+                                        <MdContentCopy size={25} />
+                                    </button>
+                                )}
+                            </div>
                         </div>
 
                         <div className="mb-4">
-                            <label className="block text-sm font-medium text-gray-700">Campo 2</label>
+                            <label className="block text-sm font-medium text-gray-700">Group Name</label>
                             <input
                                 type="text"
+                                {...register("name", { required: true, minLength: 3 })}
                                 className="mt-1 block w-full border border-gray-300 rounded px-3 py-2"
-                                placeholder="Group name"
+                                placeholder="Jose's farewell"
                             />
                         </div>
 
@@ -42,6 +111,7 @@ export const CreateGroupModalForm = ({ open = false, closeModal }: Props) => {
                             <label className="block text-sm font-medium text-gray-700"># members</label>
                             <input
                                 type="number"
+                                {...register("numMembers", { required: true, min: 1 })}
                                 className="mt-1 block w-full border border-gray-300 rounded px-3 py-2"
                                 placeholder="Ingrese un número"
                             />
@@ -51,6 +121,7 @@ export const CreateGroupModalForm = ({ open = false, closeModal }: Props) => {
                             <label className="block text-sm font-medium text-gray-700">Group type</label>
                             <input
                                 type="text"
+                                {...register("groupType", { required: true, minLength: 3 })}
                                 className="mt-1 block w-full border border-gray-300 rounded px-3 py-2"
                                 placeholder="Lunch? Dinner? Birthday?"
                             />
@@ -60,6 +131,7 @@ export const CreateGroupModalForm = ({ open = false, closeModal }: Props) => {
                             <label className="block text-sm font-medium text-gray-700">Amount</label>
                             <input
                                 type="text"
+                                {...register("totalAmount", { required: true, min: 0.0001 })}
                                 className="mt-1 block w-full border border-gray-300 rounded px-3 py-2"
                                 placeholder="20.50"
                             />
